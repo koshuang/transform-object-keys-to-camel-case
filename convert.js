@@ -24,24 +24,26 @@ export function convert(user) {
       continue;
     }
 
-    if (user[key] instanceof Array) {
-      let tempKey = getTempKey(key);
-      if (user[key].length == 0 || !(user[key][0] instanceof Object)) {
-        returnUser[tempKey] = user[key];
-      } else {
-        let tempKey = getTempKey(key);
-        let tempArr = [];
-        for (v of user[key]) {
-          tempArr.push(convert(v));
-        }
-        returnUser[tempKey] = tempArr;
-      }
-    } else {
+    if (!(user[key] instanceof Array)) {
       let tempKey = getTempKey(key);
       returnUser[tempKey] = user[key];
       //对 A___多个下划线的情况没做处理 懒得写判断了
+      continue;
+    }
+
+    let tempKey = getTempKey(key);
+    if (user[key].length == 0 || !(user[key][0] instanceof Object)) {
+      returnUser[tempKey] = user[key];
+    } else {
+      let tempKey = getTempKey(key);
+      let tempArr = [];
+      for (v of user[key]) {
+        tempArr.push(convert(v));
+      }
+      returnUser[tempKey] = tempArr;
     }
   }
+
   return returnUser;
 }
 
