@@ -10,7 +10,8 @@ const user = {
   },
   groups: [
     { group_id: 1, name: 'admin' },
-  ]
+  ],
+  cell_phone_id: 1
 };
 
 const expectedUser = {
@@ -23,7 +24,8 @@ const expectedUser = {
   },
   groups: [
     { groupId: 1, name: 'admin' },
-  ]
+  ],
+  cellPhoneId: 1
 };
 
 const actual = convert(user);
@@ -31,4 +33,10 @@ const actual = convert(user);
 const actualJSON = JSON.stringify(actual);
 const expectedUserJSON = JSON.stringify(expectedUser);
 
-console.log(actualJSON === expectedUserJSON);
+const same = actualJSON === expectedUserJSON;
+
+if (same) {
+  console.log('Passed');
+} else {
+  console.log('Failed', { expectedUser, actual });
+}
