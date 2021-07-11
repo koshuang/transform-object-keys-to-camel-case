@@ -1,3 +1,5 @@
+import { log } from './log';
+
 export function convert(user) {
   let returnUser = {};
 
@@ -15,22 +17,7 @@ export function convert(user) {
   }
 
   for (var key in user) {
-    const index = key.indexOf('_') + 1;
-    let tempKey;
-    // key值改变
-    if (index != 0) {
-      const up = key.substr(index, 1); // 需要转位大写的地方
-      if (key.length - 1 == index) {
-        tempKey = `${key.substr(0, index - 1)}` + `${up.toUpperCase()}`;
-      } else {
-        tempKey =
-          `${key.substr(0, index - 1)}` +
-          `${up.toUpperCase()}` +
-          `${key.substr(index + 1)}`;
-      }
-    } else {
-      tempKey = key; //没有下划线
-    }
+    let tempKey = getTempKey(key);
 
     // 判断属性是否是对象
     if (user[key] instanceof Object && !(user[key] instanceof Array)) {
@@ -51,4 +38,27 @@ export function convert(user) {
     }
   }
   return returnUser;
+}
+
+function getTempKey(key) {
+  const index = key.indexOf('_') + 1;
+  let tempKey;
+  // key值改变
+  if (index != 0) {
+    const up = key.substr(index, 1); // 需要转位大写的地方
+    if (key.length - 1 == index) {
+      tempKey = `${key.substr(0, index - 1)}` + `${up.toUpperCase()}`;
+    } else {
+      tempKey =
+        `${key.substr(0, index - 1)}` +
+        `${up.toUpperCase()}` +
+        `${key.substr(index + 1)}`;
+    }
+  } else {
+    tempKey = key; //没有下划线
+  }
+
+  log.debug({ index, tempKey });
+
+  return tempKey;
 }
