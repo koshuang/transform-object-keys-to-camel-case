@@ -1,8 +1,6 @@
 import { log } from './log';
 
 export function convert(user) {
-  let returnUser = {};
-
   // guards
   if (!(user instanceof Object)) {
     throw new Error('Input is not a object');
@@ -16,26 +14,30 @@ export function convert(user) {
     return user;
   }
 
-  for (var key in user) {
-    // 判断属性是否是对象
-    let tempKey = getTempKey(key);
-    const value = user[key];
+  const returnUser = Object
+    .entries(user)
+    .reduce((finalUser, [key, value]) => {
+      let tempKey = toCamelCase(key);
 
-    log.debug({ key, value });
+      if (Array.isArray(value)) {
+        return {
+          ...finalUser,
+          [tempKey]: getConvertedArray(value),
+        };
+      }
 
-    if (Array.isArray(value)) {
-      returnUser[tempKey] = getConvertedArray(value);
-      continue;
-    }
+      if (value instanceof Object) {
+        return {
+          ...finalUser,
+          [tempKey]: convert(value),
+        };
+      }
 
-    if (value instanceof Object) {
-      returnUser[tempKey] = convert(value);
-      continue;
-    }
-
-    returnUser[tempKey] = value;
-    //对 A___多个下划线的情况没做处理 懒得写判断了
-  }
+      return {
+        ...finalUser,
+        [tempKey]: value,
+      };
+    }, {});
 
   return returnUser;
 }
@@ -48,7 +50,7 @@ function getConvertedArray(arr) {
   return arr.map((obj) => convert(obj));
 }
 
-function getTempKey(key) {
+function toCamelCase(key) {
   const index = key.indexOf('_') + 1;
   let tempKey;
   // key值改变
