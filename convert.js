@@ -51,22 +51,9 @@ function getConvertedArray(arr) {
 }
 
 export function toCamelCase(key) {
-  const index = key.indexOf('_') + 1;
-  let tempKey;
-  // key值改变
-  if (index != 0) {
-    const up = key.substr(index, 1); // 需要转位大写的地方
-    if (key.length - 1 == index) {
-      tempKey = `${key.substr(0, index - 1)}` + `${up.toUpperCase()}`;
-    } else {
-      tempKey =
-        `${key.substr(0, index - 1)}` +
-        `${up.toUpperCase()}` +
-        `${key.substr(index + 1)}`;
-    }
-  } else {
-    tempKey = key; //没有下划线
-  }
-
-  return tempKey;
+  const [first, ...rest] = key.split("_");
+  const camelCased = rest.map((it) => {
+    return it[0].toUpperCase() + it.slice(1);
+  });
+  return first + camelCased.join("");
 }
