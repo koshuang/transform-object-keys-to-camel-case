@@ -50,7 +50,7 @@ function getConvertedArray(arr) {
   return arr.map((obj) => convert(obj));
 }
 
-function toCamelCase(key) {
+export function toCamelCase(key) {
   const index = key.indexOf('_') + 1;
   let tempKey;
   // key值改变
