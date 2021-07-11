@@ -17,15 +17,19 @@ export function convert(user) {
   }
 
   for (var key in user) {
-    let tempKey = getTempKey(key);
-
     // 判断属性是否是对象
     if (user[key] instanceof Object && !(user[key] instanceof Array)) {
+      let tempKey = getTempKey(key);
       returnUser[tempKey] = convert(user[key]);
-    } else if (user[key] instanceof Array) {
+      continue;
+    }
+
+    if (user[key] instanceof Array) {
+      let tempKey = getTempKey(key);
       if (user[key].length == 0 || !(user[key][0] instanceof Object)) {
         returnUser[tempKey] = user[key];
       } else {
+        let tempKey = getTempKey(key);
         let tempArr = [];
         for (v of user[key]) {
           tempArr.push(convert(v));
@@ -33,6 +37,7 @@ export function convert(user) {
         returnUser[tempKey] = tempArr;
       }
     } else {
+      let tempKey = getTempKey(key);
       returnUser[tempKey] = user[key];
       //对 A___多个下划线的情况没做处理 懒得写判断了
     }
