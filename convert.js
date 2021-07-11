@@ -21,6 +21,8 @@ export function convert(user) {
     let tempKey = getTempKey(key);
     const value = user[key];
 
+    log.debug({ key, value });
+
     if (value instanceof Object && !(value instanceof Array)) {
       returnUser[tempKey] = convert(value);
       continue;
@@ -32,12 +34,12 @@ export function convert(user) {
       continue;
     }
 
-    if (value.length == 0 || !(value[0] instanceof Object)) {
-      returnUser[tempKey] = value;
-      continue;
-    }
-
     if (Array.isArray(value)) {
+      if (value.length == 0 || !(value[0] instanceof Object)) {
+        returnUser[tempKey] = value;
+        continue;
+      }
+
       returnUser[tempKey] = getConvertedArray(value);
       continue;
     }
@@ -67,8 +69,6 @@ function getTempKey(key) {
   } else {
     tempKey = key; //没有下划线
   }
-
-  log.debug({ index, tempKey });
 
   return tempKey;
 }
