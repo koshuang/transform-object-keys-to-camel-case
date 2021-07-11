@@ -37,7 +37,10 @@ export function convert(user) {
       continue;
     }
 
-    returnUser[tempKey] = getConvertedArray(value);
+    if (Array.isArray(value)) {
+      returnUser[tempKey] = getConvertedArray(value);
+      continue;
+    }
   }
 
   return returnUser;
