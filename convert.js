@@ -19,24 +19,25 @@ export function convert(user) {
   for (var key in user) {
     // 判断属性是否是对象
     let tempKey = getTempKey(key);
+    const value = user[key];
 
-    if (user[key] instanceof Object && !(user[key] instanceof Array)) {
-      returnUser[tempKey] = convert(user[key]);
+    if (value instanceof Object && !(value instanceof Array)) {
+      returnUser[tempKey] = convert(value);
       continue;
     }
 
-    if (!(user[key] instanceof Array)) {
-      returnUser[tempKey] = user[key];
+    if (!(value instanceof Array)) {
+      returnUser[tempKey] = value;
       //对 A___多个下划线的情况没做处理 懒得写判断了
       continue;
     }
 
-    if (user[key].length == 0 || !(user[key][0] instanceof Object)) {
-      returnUser[tempKey] = user[key];
+    if (value.length == 0 || !(value[0] instanceof Object)) {
+      returnUser[tempKey] = value;
       continue;
     }
 
-    returnUser[tempKey] = getConvertedArray(user[key]);
+    returnUser[tempKey] = getConvertedArray(value);
   }
 
   return returnUser;
