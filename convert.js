@@ -15,18 +15,18 @@ export function convert(user) {
   }
 
   for (var key in user) {
-    const idx = key.indexOf('_') + 1;
+    const index = key.indexOf('_') + 1;
     let tempKey;
     // key值改变
-    if (idx != 0) {
-      const up = key.substr(idx, 1); // 需要转位大写的地方
-      if (key.length - 1 == idx) {
-        tempKey = `${key.substr(0, idx - 1)}` + `${up.toUpperCase()}`;
+    if (index != 0) {
+      const up = key.substr(index, 1); // 需要转位大写的地方
+      if (key.length - 1 == index) {
+        tempKey = `${key.substr(0, index - 1)}` + `${up.toUpperCase()}`;
       } else {
         tempKey =
-          `${key.substr(0, idx - 1)}` +
+          `${key.substr(0, index - 1)}` +
           `${up.toUpperCase()}` +
-          `${key.substr(idx + 1)}`;
+          `${key.substr(index + 1)}`;
       }
     } else {
       tempKey = key; //没有下划线
