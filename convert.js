@@ -36,19 +36,14 @@ export function convert(user) {
       continue;
     }
 
-    returnUser[tempKey] = getConvertedArray(user, user[key], tempKey);
+    returnUser[tempKey] = getConvertedArray(user[key]);
   }
 
   return returnUser;
 }
 
-function getConvertedArray(user, arr, tempKey) {
-  let tempArr = [];
-  for (v of arr) {
-    tempArr.push(convert(v));
-  }
-
-  return tempArr;
+function getConvertedArray(arr) {
+  return arr.map((obj) => convert(obj));
 }
 
 function getTempKey(key) {
