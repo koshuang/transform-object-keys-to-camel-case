@@ -23,17 +23,6 @@ export function convert(user) {
 
     log.debug({ key, value });
 
-    if (value instanceof Object && !(value instanceof Array)) {
-      returnUser[tempKey] = convert(value);
-      continue;
-    }
-
-    if (!(value instanceof Array)) {
-      returnUser[tempKey] = value;
-      //对 A___多个下划线的情况没做处理 懒得写判断了
-      continue;
-    }
-
     if (Array.isArray(value)) {
       if (value.length == 0 || !(value[0] instanceof Object)) {
         returnUser[tempKey] = value;
@@ -43,6 +32,14 @@ export function convert(user) {
       returnUser[tempKey] = getConvertedArray(value);
       continue;
     }
+
+    if (value instanceof Object) {
+      returnUser[tempKey] = convert(value);
+      continue;
+    }
+
+    returnUser[tempKey] = value;
+    //对 A___多个下划线的情况没做处理 懒得写判断了
   }
 
   return returnUser;
