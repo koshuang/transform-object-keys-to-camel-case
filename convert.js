@@ -24,11 +24,6 @@ export function convert(user) {
     log.debug({ key, value });
 
     if (Array.isArray(value)) {
-      if (value.length == 0 || !(value[0] instanceof Object)) {
-        returnUser[tempKey] = value;
-        continue;
-      }
-
       returnUser[tempKey] = getConvertedArray(value);
       continue;
     }
@@ -46,6 +41,10 @@ export function convert(user) {
 }
 
 function getConvertedArray(arr) {
+  if (arr.length == 0 || !(arr[0] instanceof Object)) {
+    return arr;
+  }
+
   return arr.map((obj) => convert(obj));
 }
 
