@@ -1,10 +1,13 @@
 export function convert(user) {
   let returnUser = {};
-  // 判断接受类型是否是object 且不是Promise
-  if (!(user instanceof Object) || typeof user.then === 'function') {
-    returnUser = 0; //非对象返回0
-    return returnUser;
-    //取消下划线并且把下划线后的首字母转为大写
+
+  // guards
+  if (!(user instanceof Object)) {
+    throw new Error('Input is not a object');
+  }
+
+  if (typeof user.then === 'function') {
+    throw new Error('Input should not be a promise');
   }
 
   if (Object.keys(user) == []) {
