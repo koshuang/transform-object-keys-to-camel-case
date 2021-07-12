@@ -1,4 +1,5 @@
 import { log } from './log';
+import { toCamelCase } from './toCamelCase';
 
 export function convert(user) {
   // guards
@@ -14,7 +15,13 @@ export function convert(user) {
     return user;
   }
 
-  const returnUser = Object
+  const returnUser = convertObject(user);
+
+  return returnUser;
+}
+
+function convertObject(user) {
+  return Object
     .entries(user)
     .reduce((finalUser, [key, value]) => {
       let tempKey = toCamelCase(key);
@@ -38,8 +45,6 @@ export function convert(user) {
         [tempKey]: value,
       };
     }, {});
-
-  return returnUser;
 }
 
 function getConvertedArray(arr) {
@@ -48,10 +53,4 @@ function getConvertedArray(arr) {
   }
 
   return arr.map((obj) => convert(obj));
-}
-
-export function toCamelCase(key) {
-  const [first, ...rest] = key.split("_");
-  const camelCased = rest.map((it) => it[0].toUpperCase() + it.slice(1));
-  return first + camelCased.join("");
 }
